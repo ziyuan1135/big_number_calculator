@@ -15,11 +15,13 @@
 * 整數與浮點數運算其結果為浮點數(順序相反亦然)。
 * 除了支援任意數之間的加減乘除之外，還要有 Power(冪次)及正整數的 Factorial(階乘)。
 * 輸出 Decimal 時，請直接輸出至小數點後 100 位，不必四捨五入或者無條件進位等動作，Decimal 的小數請以分數實作。<br/>亦即：1.0 / 3.0 * 3 = 1.00000000…，而非 0.999999999999...。
-* 程式必須可以讓使用者將任意運算式的值賦予變數，而且可以重新賦值，例如：
+* 程式必須可以讓使用者將任意運算式的值賦予變數，而且可以重新賦值，
+```例如：
 Set Integer A = 100 + 5! + Power(5, 2)
 Set Integer A = 3
 Set Decimal A = 1.0
 A = A + A
+```
 * 輸出時機
 ```
 Set Integer A = 3 // 不用輸出
@@ -52,21 +54,27 @@ A + A // 輸出 12
 
 ## API設計
 * 為 Decimal、Integer 重載operator <<, >>, +, -, *,/，使這兩種型別可以進行複合運算，並且可以使用std::cout 以及 std::cin 進行輸出輸入
-  * Integer i;
-  * Decimal d;
-  * cin >> i >> d;
-  * cout << i + d;
+```
+Integer i;
+Decimal d;
+cin >> i >> d;
+cout << i + d;
+```
 * 為 Decimal、Integer 重載Constructor，可以直接賦予字串進行初始化
-  * Integer i = "12345"; 
-  * Decimal d = "0.3 * 3";
+```
+Integer i = "12345"; 
+Decimal d = "0.3 * 3";
+```
 * 繼承共同基底類別或者使用其 它設計技巧，使得兩種型別可以放入同一容器中，並且可以 走訪所有儲存的元素然後加以輸出。
-  * Integer i = "123";
-  * Decimal d = "123.3"; 
-  * vector<NumberObject*> nums; 
-  * nums.push_back(&i); 
-  * nums.push_back(&d); 
-  * for(const auto& num : nums) 
-  * cout << *num << endl;
+```
+Integer i = "123";
+Decimal d = "123.3"; 
+vector<NumberObject*> nums; 
+nums.push_back(&i); 
+nums.push_back(&d); 
+for(const auto& num : nums) 
+  cout << *num << endl;
+```
 
 # class之間的關係
 ## 數字計算
