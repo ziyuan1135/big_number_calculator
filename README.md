@@ -76,16 +76,207 @@ for(const auto& num : nums)
   cout << *num << endl;
 ```
 
-# class之間的關係
-## 數字計算
+# 系統架構
+## 架構圖
+```mermaid
+classDiagram
+Integer..Math_Expression
+Decimal..Math_Expression
+Parser..Math_Expression
+Token..Math_Expression
+
+namespace API_Design{
+  class Basic
+  class Decimal
+  class Integer
+}
+Basic--|>Integer
+Basic--|>Decimal
+class Basic{
+  nothing
+  +virtual outcome()
+  +operator<<()
+}
+class Decimal{
+  +vector<string> list
+  +MathExpression me
+  
+  +Decimal()
+  +outcome()
+  +operator+()
+  +...()
+  +operator/()
+  +operator<<()
+  +operator>>()
+}
+class Integer{
+  +vector list
+  +MathExpression me;
+  
+  +Integer()
+  +outcome()
+  +operator+()
+  +...()
+  +operator/()
+  +operator<<()
+  +operator>>()
+}
+
+namespace 大數計算系統{
+  class Norm_Arithmetic
+  class Math_Expression
+}
+Norm_Arithmetic--|>Math_Expression
+class Norm_Arithmetic{
+  nothing
+  
+  +mul()
+  +add()
+  +sub()
+  +divide()
+  +...()
+}
+class Math_Expression{
+  +int sign
+  +deque numerator
+  +deque denominator
+  
+  +MathExpression()
+  +degree()
+  +exp()
+  +operator+()
+  +...()
+  +operator/()
+  +operator<<()
+}
+
+namespace 解析輸入系統{
+  class Parser
+  class Token
+}
+class Parser{
+  nothing
+  
+  +parse() Math_Expression
+  +checkParentheses()
+  +isDigits()
+  +...()
+}
+class Token{
+  +string type
+  +MathExpression me;
+  
+  +Token()
+  +operator<<()
+}
+```
+
+## 大數計算系統
+```mermaid
+classDiagram
+namespace 大數計算系統{
+  class Norm_Arithmetic
+  class Math_Expression
+}
+Norm_Arithmetic--|>Math_Expression
+class Norm_Arithmetic{
+  nothing
+  
+  +mul()
+  +add()
+  +sub()
+  +divide()
+  +...()
+}
+class Math_Expression{
+  +int sign
+  +deque numerator
+  +deque denominator
+  
+  +MathExpression()
+  +degree()
+  +exp()
+  +operator+()
+  +...()
+  +operator/()
+  +operator<<()
+}
+```
 * NormalArithmetic: 定義大數計算的functions
-* MathExpression: 繼承NormalArithmetic，將數字轉為分數，即分子與分母。operator overloading將 +, -, *, / 等運算重新定義，並利用NormalArithmetic的function進行大數運算。
+* MathExpression:
+  * 繼承NormalArithmetic，將數字轉為分數，即分子與分母。
+  * operator overloading將 +, -, *, / 等運算重新定義，並利用NormalArithmetic的function進行大數運算。
 
 ## API設計
+```mermaid
+classDiagram
+namespace API_Design{
+  class Basic
+  class Decimal
+  class Integer
+}
+Basic--|>Integer
+Basic--|>Decimal
+class Basic{
+  nothing
+  +virtual outcome()
+  +operator<<()
+}
+class Decimal{
+  +vector<string> list
+  +MathExpression me
+  
+  +Decimal()
+  +outcome()
+  +operator+()
+  +...()
+  +operator/()
+  +operator<<()
+  +operator>>()
+}
+class Integer{
+  +vector list
+  +MathExpression me;
+  
+  +Integer()
+  +outcome()
+  +operator+()
+  +...()
+  +operator/()
+  +operator<<()
+  +operator>>()
+}
+```
 * Basic: 讓Integer與Decimal繼承之用，利用virtual function與operator overloading實現多型
-* Integer: 繼承Basic。overwrite virtual function與定義operator overloading達到多型
-* Decimal: 繼承Basic。overwrite virtual function與定義operator overloading達到多型
+* Integer:
+  * 繼承Basic。
+  * overwrite virtual function與定義operator overloading達到多型
+* Decimal:
+  * 繼承Basic。
+  * overwrite virtual function與定義operator overloading達到多型
 
-## 解析輸入
+## 解析輸入系統
+```mermaid
+classDiagram
+namespace 解析輸入系統{
+  class Parser
+  class Token
+}
+class Parser{
+  nothing
+  
+  +parse() Math_Expression
+  +checkParentheses()
+  +isDigits()
+  +...()
+}
+class Token{
+  +string type
+  +MathExpression me;
+  
+  +Token()
+  +operator<<()
+}
+```
 * Parser: 解析四則運算
-* Token: 紀錄輸入的變數
+* Token: 紀錄變數運算
